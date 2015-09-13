@@ -41,6 +41,12 @@ public class NamedEntityRecognizer {
 		ArrayList<String> personRegex = new ArrayList<String>();
 		
 		//add regex's to the list here
+		// si <person's name - up to four words> 
+		personRegex.add("((s|S)(i|I))(\\s)+([a-zA-Z\\-\\.\\\"]+(\\s)*){1,5}");
+		// ni <person's name - up to four words> 
+		personRegex.add("((n|N)(i|I))(\\s)+([a-zA-Z\\-\\.]+(\\s)*){1,3}");
+		// nina/sina <person's name> at <person's name>
+		personRegex.add("(((n|N)|(s|S))(i|I)(n|N)(a|A))(\\s)+((([a-zA-Z\\-]+(\\s)*)");
 		
 		for(String pRegex : personRegex) {
 			ArrayList<String> temp = matchPatterns(pRegex, largeText);
@@ -69,6 +75,15 @@ public class NamedEntityRecognizer {
 		ArrayList<String> dateRegex = new ArrayList<String>();
 		
 		//add regex's to the list here
+		// September, 9 2015
+		// September 9, 2015
+		// September 9
+		// Sept. 9 2015
+		// Sept. 9, 2015
+		dateRegex.add("[a-zA-Z]+[\\,\\.]*[\\s]*[0-9]+[\\s\\.\\,]*[0-9]*");
+		// 9/9/2015
+		// 9/9
+		dateRegex.add("[0-9]+[\\/]+[0-9]+[\\/]*[0-9]*");
 		
 		for(String dRegex : dateRegex) {
 			ArrayList<String> temp = matchPatterns(dRegex, largeText);
