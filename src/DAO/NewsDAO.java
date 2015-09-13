@@ -8,7 +8,9 @@ public class NewsDAO {
 	String body;
 	String date;
 	
-	ArrayList<String> namedEntities = new ArrayList<String>();
+	ArrayList<String> personNamedEntities = new ArrayList<String>();
+	ArrayList<String> locationNamedEntities = new ArrayList<String>();
+	ArrayList<String> dateNamedEntities = new ArrayList<String>();
 	
 	public NewsDAO() {
 		
@@ -53,14 +55,55 @@ public class NewsDAO {
 		this.date = date;
 	}
 
-	public ArrayList<String> getNamedEntities() {
-		return namedEntities;
+	public ArrayList<String> getPersonNamedEntities() {
+		return personNamedEntities;
 	}
 
-	public void setNamedEntities(ArrayList<String> namedEntities) {
-		this.namedEntities = namedEntities;
+	public void setPersonNamedEntities(ArrayList<String> personNamedEntities) {
+		this.personNamedEntities = personNamedEntities;
+	}
+
+	public ArrayList<String> getLocationNamedEntities() {
+		return locationNamedEntities;
+	}
+
+	public void setLocationNamedEntities(ArrayList<String> locationNamedEntities) {
+		this.locationNamedEntities = locationNamedEntities;
+	}
+
+	public ArrayList<String> getDateNamedEntities() {
+		return dateNamedEntities;
+	}
+
+	public void setDateNamedEntities(ArrayList<String> dateNamedEntities) {
+		this.dateNamedEntities = dateNamedEntities;
+	}
+	
+	public void viewNewsAttributes() {
+		System.out.println("[AUTHOR] : " + this.author);
+		System.out.println("[TITLE] : " + this.title);
+		System.out.println("[BODY] : " + this.body);
+		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+		System.out.print("[PERSON NAMED ENTITIES] : ");
+		
+		for(String p : this.personNamedEntities) {
+			System.out.print("<" + p + ">  ");
+		}
+		
+		System.out.print("\n[LOCATION NAMED ENTITIES] : ");
+		
+		for(String l : this.locationNamedEntities) {
+			System.out.print("<" + l + ">  ");
+		}
+		
+		System.out.print("[DATE NAMED ENTITIES] : ");
+		
+		for(String d : this.dateNamedEntities) {
+			System.out.print("<" + d + ">  ");
+		}
+		
+		System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 	}
 	
 	
-
 }

@@ -30,7 +30,15 @@ public class NERDriver {
 		
 		docParser.parseXMLNewsFile(filename);
 		//ner.setnDAO(docParser.parseXMLNewsFile(filename));
+		//ner.extractNamedEntities();
 		
+		System.out.println("===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===");
+		System.out.println(":: NEWS ATTRIBUTE VIEW ::");
+		System.out.println("===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===");
+		
+		for(NewsDAO n : ner.getnDAO()) {
+			n.viewNewsAttributes();
+		}
 	}
 
 }
