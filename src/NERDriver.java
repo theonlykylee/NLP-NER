@@ -24,13 +24,14 @@ public class NERDriver {
 		System.out.print("   > Enter filename of News XML (exclude the extension): ");
 		
 		filename = s.next();
+	
 		filename += ".xml";
 		
 		System.out.println("===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===");
 		
 		docParser.parseXMLNewsFile(filename);
-		//ner.setnDAO(docParser.parseXMLNewsFile(filename));
-		//ner.extractNamedEntities();
+		ner.setnDAO(docParser.parseXMLNewsFile(filename));
+		ner.extractNamedEntities();
 		
 		System.out.println("===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===");
 		System.out.println(":: NEWS ATTRIBUTE VIEW ::");
@@ -39,6 +40,8 @@ public class NERDriver {
 		for(NewsDAO n : ner.getnDAO()) {
 			n.viewNewsAttributes();
 		}
+		
+		docParser.saveXML(ner.getnDAO());
 	}
 
 }

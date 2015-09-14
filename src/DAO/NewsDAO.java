@@ -8,9 +8,9 @@ public class NewsDAO {
 	String body;
 	String date;
 	
-	ArrayList<String> personNamedEntities = new ArrayList<String>();
-	ArrayList<String> locationNamedEntities = new ArrayList<String>();
-	ArrayList<String> dateNamedEntities = new ArrayList<String>();
+	ArrayList<String> personNamedEntities;
+	ArrayList<String> locationNamedEntities;
+	ArrayList<String> dateNamedEntities;
 	
 	public NewsDAO() {
 		

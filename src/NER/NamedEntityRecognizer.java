@@ -26,7 +26,7 @@ public class NamedEntityRecognizer {
 	
 	public void extractNamedEntities() {
 		String newsBody;
-		
+		System.out.println("Currently recognizing entities...");
 		for(NewsDAO nd : nDAO) {
 			newsBody = nd.getBody();
 			
@@ -34,6 +34,7 @@ public class NamedEntityRecognizer {
 			nd.setLocationNamedEntities(extractLocations(newsBody));
 			nd.setDateNamedEntities(extractDates(newsBody));
 		}
+		System.out.println("Recognizing done");
 	}
 	
 	public ArrayList<String> extractPersons(String largeText) {
@@ -45,8 +46,11 @@ public class NamedEntityRecognizer {
 		personRegex.add("((s|S)(i|I))(\\s)+([a-zA-Z\\-\\.\\\"]+(\\s)*){1,5}");
 		// ni <person's name - up to four words> 
 		personRegex.add("((n|N)(i|I))(\\s)+([a-zA-Z\\-\\.]+(\\s)*){1,3}");
-		// nina/sina <person's name> at <person's name>
-		personRegex.add("(((n|N)|(s|S))(i|I)(n|N)(a|A))(\\s)+((([a-zA-Z\\-]+(\\s)*)");
+		// nina/sina <person's name>
+		personRegex.add("(((n|N)|(s|S))(i|I)(n|N)(a|A))(\\s)+([a-zA-Z\\-\\.]+(\\s)*){1,3}");
+		// at <person's name>
+		personRegex.add("((a|A)(t|T))(\\s)+([a-zA-Z\\-\\.]+(\\s)*){1,3}");
+		
 		
 		for(String pRegex : personRegex) {
 			ArrayList<String> temp = matchPatterns(pRegex, largeText);
@@ -61,7 +65,10 @@ public class NamedEntityRecognizer {
 		ArrayList<String> locationRegex = new ArrayList<String>();
 		
 		//add regex's to the list here
-		
+		// sa <location name - up to 3 words> 
+		locationRegex.add("((s|S)(a|A))(\\s)+([a-zA-Z\\-\\.\\\"]+(\\s)*){1,3}");
+		// all caps lock
+		locationRegex.add("\\b[A-Z]+\\b");
 		for(String lRegex : locationRegex) {
 			ArrayList<String> temp = matchPatterns(lRegex, largeText);
 			extractedLocations.addAll(temp);
@@ -80,7 +87,7 @@ public class NamedEntityRecognizer {
 		// September 9
 		// Sept. 9 2015
 		// Sept. 9, 2015
-		dateRegex.add("[a-zA-Z]+[\\,\\.]*[\\s]*[0-9]+[\\s\\.\\,]*[0-9]*");
+		dateRegex.add("[a-zA-Z]+[\\,\\.]*[\\s]+[0-9]+[\\s\\.\\,]*[0-9]*");
 		// 9/9/2015
 		// 9/9
 		dateRegex.add("[0-9]+[\\/]+[0-9]+[\\/]*[0-9]*");
@@ -89,6 +96,8 @@ public class NamedEntityRecognizer {
 			ArrayList<String> temp = matchPatterns(dRegex, largeText);
 			extractedDates.addAll(temp);
 		}
+		
+		
 		
 		return extractedDates;
 	}

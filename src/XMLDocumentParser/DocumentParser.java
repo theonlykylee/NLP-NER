@@ -2,9 +2,17 @@ package XMLDocumentParser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -70,5 +78,78 @@ public class DocumentParser {
 		}
 		
 		return newsList;
+	}
+	
+	public void saveXML(List<NewsDAO> daos){
+		
+		// initialize the document
+		
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = factory.newDocumentBuilder();
+			
+			// root node
+			Document doc = docBuilder.newDocument();
+			Element rootNode = doc.createElement("entities");
+			doc.appendChild(rootNode);
+			
+			// Date Entities
+			Element dateNode = doc.createElement("dates");
+			Element personNode = doc.createElement("persons");
+			Element locationNode = doc.createElement("locations");
+			for(NewsDAO dao: daos)
+			{
+				for(String date: dao.getDateNamedEntities())
+				{
+					Element entity = doc.createElement("date");
+					entity.appendChild(doc.createTextNode(date));
+					dateNode.appendChild(entity);
+				}
+					
+
+				for(String person: dao.getPersonNamedEntities())
+				{
+					Element personEntity = doc.createElement("person");
+					personEntity.appendChild(doc.createTextNode(person));
+					personNode.appendChild(personEntity);
+				}
+				
+				for(String location: dao.getLocationNamedEntities())
+				{
+					Element locationEntity = doc.createElement("location");
+					locationEntity.appendChild(doc.createTextNode(location));
+					locationNode.appendChild(locationEntity);
+				}
+				
+				
+			}
+			
+			rootNode.appendChild(dateNode);
+			rootNode.appendChild(personNode);
+			rootNode.appendChild(locationNode);
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("./result.xml"));
+
+			// Output to console for testing
+			// StreamResult result = new StreamResult(System.out);
+
+			transformer.transform(source, result);
+
+			System.out.println("File saved!");
+
+			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		} catch (TransformerException f) {
+			// TODO Auto-generated catch block
+			f.printStackTrace();
+		}
 	}
 }
